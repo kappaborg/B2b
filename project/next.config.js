@@ -18,6 +18,11 @@ const nextConfig = {
   },
   transpilePackages: ['framer-motion'],
   
+  // Environment variables
+  env: {
+    CUSTOM_KEY: process.env.CUSTOM_KEY || 'default-value',
+  },
+  
   // Experimental features
   experimental: {
     scrollRestoration: true,
@@ -63,7 +68,7 @@ const nextConfig = {
           {
             key: 'Access-Control-Allow-Origin',
             value: process.env.NODE_ENV === 'production' 
-              ? process.env.NEXT_PUBLIC_APP_URL || 'https://your-app.vercel.app'
+              ? process.env.NEXT_PUBLIC_APP_URL || 'https://b2b-six-tau.vercel.app'
               : '*',
           },
           {
