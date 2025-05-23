@@ -9,7 +9,7 @@
   "homepage": "https://your-domain.vercel.app",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/luxe-intimates.git"
+    "url": "https://github.com/kappaborg/B2b.git"
   },
   "scripts": {
     "dev": "next dev",
@@ -21,7 +21,6 @@
     "build:analyze": "ANALYZE=true npm run build",
     "export": "next export",
     "clean": "rm -rf .next out",
-    "postbuild": "next-sitemap --config next-sitemap.config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky install || true"
   },

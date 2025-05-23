@@ -10,7 +10,7 @@ declare global {
 }
 
 // Google Analytics utility functions
-export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+export const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-RLPFD10EGB';
 
 // Initialize Google Analytics
 export const initGA = () => {
@@ -39,7 +39,7 @@ export const initGA = () => {
 
 // Track page views
 export const trackPageView = (url: string, title?: string) => {
-  if (typeof window !== 'undefined' && window.gtag) {
+  if (typeof window !== 'undefined' && window.gtag && GA_MEASUREMENT_ID) {
     window.gtag('config', GA_MEASUREMENT_ID, {
       page_title: title || document.title,
       page_location: url,

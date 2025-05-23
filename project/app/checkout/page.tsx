@@ -10,13 +10,19 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, itemCount, totalPrice, clearCart } = useCart();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  
+  // Ensure component is mounted before accessing router
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   
   // Form states
   const [contactInfo, setContactInfo] = useState({
@@ -66,7 +72,9 @@ export default function CheckoutPage() {
         description: 'Thank you for your purchase. Your order has been confirmed.',
       });
       clearCart();
-      router.push('/order-confirmation');
+      if (mounted) {
+        router.push('/order-confirmation');
+      }
     } catch (err) {
       toast({
         title: 'Order failed',
@@ -78,8 +86,29 @@ export default function CheckoutPage() {
     }
   };
   
+  // Handle cart empty state after mount
+  useEffect(() => {
+    if (mounted && itemCount === 0) {
+      router.push('/cart');
+    }
+  }, [mounted, itemCount, router]);
+  
+  // Loading state while mounting
+  if (!mounted) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
+            <p>Loading checkout...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Return early if cart is empty
   if (itemCount === 0) {
-    router.push('/cart');
     return null;
   }
   

@@ -13,6 +13,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-RLPFD10EGB';
 
 export const metadata: Metadata = {
   title: 'Luxe Intimates | Premium Adult Products',
@@ -73,26 +74,19 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Analytics */}
-        {analyticsConfig.enabled && analyticsConfig.gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${analyticsConfig.gaId}', {
-                  page_title: document.title,
-                  page_location: window.location.href,
-                  cookie_flags: 'SameSite=None;Secure',
-                });
-              `}
-            </Script>
-          </>
-        )}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+          strategy="afterInteractive"
+          async
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_ID}');
+          `}
+        </Script>
         
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
